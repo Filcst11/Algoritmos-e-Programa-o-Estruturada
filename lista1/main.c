@@ -1,14 +1,4 @@
 //LISTA 1 (1 PONTO)
-/*8. Elabore um programa que faça a leitura de vários números inteiros até que se digite
-um número negativo. O programa tem de retornar o maior e o menor número lido
-9. Elabore um algoritmo que permita ao usuário realizar a compra de frutas. Assim,
-apresente a lista de frutas disponíveis, abaixo, com seus respectivos valores. O algoritmo
-deve permitir ao usuário retomar o menu frutas quantas vezes quiser, e solicitar a quantidade
-de frutas. Ao final, apresente o valor total da compra.
-1 => ABACAXI – 5,00 a unidade
-2 => MAÇA – 1,00 a unidade
-3 => PERA – 4,00 a unidade
-10. Faça um programa que leia 10 inteiros e imprima sua média.*/
 
 #include<stdio.h>
 #include<locale.h>
@@ -48,7 +38,7 @@ int main(){
 //Função que direciona o usuário para qual função ele deseja entrar.
 
 int menu(int){
-    puts("\n______________MENU________________\n\nEscolha a função que você quer entrar:\n1-\n2-\n3-\n4-\n5-\n6-\n7-\n8-\n9-\n10-\n11-Sair do Programa");
+    puts("\n______________MENU________________\n\nEscolha a função que você quer entrar:\n1-Questão 1\n2-Questão 2\n3-Questão 3\n4-Questão 4\n5-Questão 5\n6-Questão 6\n7-Questão 7\n8-Questão 8\n9-Questão 9\n10-Questão 10\n11-Sair do Programa");
     scanf("%i",& loop);
     switch(loop){
         case 1:
@@ -85,7 +75,7 @@ int menu(int){
            puts("\nSaindo do programa");
            break;
         default:
-           puts("\nEscolha inválida\n\n\n______________MENU________________\n\nEscolha a função que você quer entrar:\n1-\n2-\n3-\n4-\n5-\n6-\n7-\n8-\n9-\n10-\n11-Sair do Programa");
+           puts("\nEscolha inválida\n\n\n______________MENU________________\n\nEscolha a função que você quer entrar:\n1-Questão 1\n2-Questão 2\n3-Questão 3\n4-Questão 4\n5-Questão 5\n6-Questão 6\n7-Questão 7\n8-Questão 8\n9-Questão 9\n10-Questão 10\n11-Sair do Programa");
            scanf("%i", & loop);                        
     }
     return loop;
