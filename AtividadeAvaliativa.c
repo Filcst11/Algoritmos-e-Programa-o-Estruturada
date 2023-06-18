@@ -29,6 +29,7 @@ int menu(int);
 void cadastro();
 void imprimir();
 void busca();
+void excluir();
 
 
 //PRINCIPAL
@@ -64,7 +65,7 @@ int menu(int esc){
         
         break;
     case 3:        
-        
+        excluir();
         break;
     case 4:
         busca();
@@ -148,6 +149,33 @@ void cadastro(){
     
 }
 
+//EXCLUIR
+void excluir(){
+  int i,i_excluir,id_excluir;
+  
+  puts("\nVocê deseja excluir qual registro?\nProcure a Id pela função de busca ou pela função de imprimir.\nId:");
+  scanf("%i", & id_excluir);
+  for(i=0;i<qtd_usuarios;i++){
+    if(id_excluir == usuario[i].id){
+      i_excluir = i;
+    }
+  }
+  for(i=i_excluir;i<qtd_usuarios;i++){
+    char *aux_nome[50], *aux_email[50], *aux_endereco[100];
+
+    *aux_nome = usuario[i+1].nome;
+    
+    usuario[i].id = usuario[i+1].id;
+    strcpy(usuario[i].nome, usuario[i+1].nome);
+    strcpy(usuario[i].email, usuario[i+1].email);
+    usuario[i].sexo = usuario[i+1].sexo;
+    strcpy(usuario[i].endereco, usuario[i+1].endereco);
+    usuario[i].altura = usuario[i+1].altura;
+    usuario[i].vacina = usuario[i+1].vacina;
+  }
+  qtd_usuarios-=1;
+}
+
 //Imprimir
 void imprimir(){
   int i;
@@ -178,6 +206,7 @@ void imprimir(){
   }  
 }
 
+//BUSCA
 void busca(){
   char email_busca[50];
   int i;
@@ -185,7 +214,6 @@ void busca(){
   puts("\nEscreva o e-mail que você deseja procurar:");
   scanf(" %50[^\n]s",& email_busca);
   for(i=0;i<qtd_usuarios;i++){
-    printf("%s %s",email_busca, usuario[i].email);
     if(strcmp(email_busca,usuario[i].email)==0){
       puts("\n-------------------------------------------\n");
       printf("Nome usuário: %s\n",usuario[i].nome);
