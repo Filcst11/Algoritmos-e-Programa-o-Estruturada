@@ -20,17 +20,18 @@ typedef struct{
 
 Usuarios usuario[MAX_USUARIOS];
 int esc;
-int qtd_usuarios=0; 
-int num_usuario=0;
+int qtd_usuarios=0;
 
 /*Protótipos das funções*/
 
 int menu(int);
 void cadastro();
+void editar();
 void imprimir();
 void busca();
 void excluir();
-
+void backup();
+void restaurar();
 
 //PRINCIPAL
 
@@ -51,10 +52,10 @@ int main(){
 int menu(int esc){
     puts("\n\n\n___________________MENU____________________");
     puts("\n\nVocê está no menu, o que você deseja fazer agora?");
-    puts("\n1-Incluir\n2-Editar\n3-Excluir\n4-Buscar\n5-Imprimir\n6-Backup\n7-Restaurar\n8-Sair\n\n");
+    puts("\n1-Incluir\n2-Editar\n3-Excluir\n4-Buscar\n5-Imprimir\n6-Backup\n7-Restaurar backup\n8-Sair\n\n");
     scanf("%i", &esc);
     while(esc < 1 || esc > 9){
-        puts("\n1-Incluir\n2-Editar\n3-Excluir\n4-Buscar\n5-Imprimir\n6-Backup\n7-Restaurar\n8-Sair\n\n");
+        puts("\n1-Incluir\n2-Editar\n3-Excluir\n4-Buscar\n5-Imprimir\n6-Backup\n7-Restaurar backup\n8-Sair\n\n");
         scanf("%i", &esc);
     }
     switch (esc){
@@ -62,7 +63,7 @@ int menu(int esc){
         cadastro();
         break;
     case 2:
-        
+        editar();
         break;
     case 3:        
         excluir();
@@ -74,10 +75,10 @@ int menu(int esc){
         imprimir();
         break;        
     case 6:
-        
+        backup();
         break;
     case 7:
-        
+        restaurar();
         break;
     case 8:
         puts("\nSaindo do programa");
@@ -142,11 +143,96 @@ void cadastro(){
       printf("\nEscolha inválida\nEscreva a condição de vacina\n1-sim\n2-Não:");
       scanf("% i",& Novo_Usuario.vacina);
     }
-
-    usuario[num_usuario]=Novo_Usuario;
-    num_usuario++;
-    qtd_usuarios++;
     
+    usuario[qtd_usuarios]=Novo_Usuario;
+    qtd_usuarios++;        
+}
+
+//EDITAR
+void editar(){
+  Usuarios Editar_usuario;
+  int id_editar,continua;
+  
+  puts("\nEscreva a id do usuário que você deseja editar");
+  scanf("%i",& id_editar);
+  for(int i = 0; i < qtd_usuarios; i++){
+    if(id_editar == usuario[i].id){
+      puts("\nVocê deseja editar este usuário?\n");
+      puts("\n-------------------------------------------\n");
+      printf("Nome usuário: %s\n",usuario[i].nome);
+      printf("id do usuário: %i\n",usuario[i].id);
+      printf("E-mail do usuário: %s\n",usuario[i].email);
+      if(usuario[i].sexo == 1){
+        printf("sexo usuário: Feminino\n");
+      }
+      if(usuario[i].sexo == 2){
+        printf("sexo usuário: Masculino\n");
+      }
+      if(usuario[i].sexo == 3){
+        printf("sexo usuário: Indiferente\n");
+      }
+      printf("Endereço do usuário: %s\n",usuario[i].endereco);
+      printf("Altura usuário: %.2f\n",usuario[i].altura);
+      if(usuario[i].vacina == 1){
+        printf("Usuário Vacinado\n");
+      }
+      puts("\n-------------------------------------------\n\n1-Sim\n2-Não");
+      scanf("%i",& continua);
+      if(continua == 1){
+        //ID
+        Editar_usuario.id = usuario[i].id;
+        
+        //NOME
+        printf("Digite o nome:");
+        scanf(" %50[^\n]s",& Editar_usuario.nome);
+    
+
+        //E-MAIL 
+        printf("Digite o e-mail:");
+        scanf(" %50[^\n]s",& Editar_usuario.email);
+        //printf("%s",Editar_usuario.email);
+    
+
+        //SEXO
+        puts("\nDigite o sexo\n1-Feminino\n2-Masculino\n3-Indiferente.");
+        scanf("%i",&Editar_usuario.sexo);
+        if(Editar_usuario.sexo != 1 && Editar_usuario.sexo != 2 && Editar_usuario.sexo != 3){
+          puts("\nEntrou no if\nEscolha inválida\nDigite o sexo\nFeminino,Masculino ou Indiferente.");
+          scanf("%i",&Editar_usuario.sexo);
+        }
+        while(Editar_usuario.sexo != 1 && Editar_usuario.sexo != 2 && Editar_usuario.sexo != 3){
+          puts("\nEscolha inválida\nDigite o sexo\nFeminino,Masculino ou Indiferente.");
+          scanf("%i",&Editar_usuario.sexo);
+        }
+
+        //ENDEREÇO
+        puts("\nDigite o Endereço\n");
+        scanf(" %100[^\n]s", & Editar_usuario.endereco);
+
+        //ALTURA
+        puts("\nEscreva o tamanho:");
+        scanf("%f",& Editar_usuario.altura);
+        //printf("%f",Novo_Usuario.altura);
+        //while(Novo_Usuario.altura <= 1.0 || Novo_Usuario.altura >= 2.0){
+        //  puts("\nAltura inválida\nEscreva uma altura entre 1 e 2 metros:");
+        //  scanf("% lf",& Novo_Usuario.altura);
+        //}
+
+        //VACINA
+        puts("\nEscreva a condição de vacina\n1-sim\n2-Não");
+        scanf("%i",& Editar_usuario.vacina);
+        while(Editar_usuario.vacina != 1 && Editar_usuario.vacina != 2){
+          printf("\nEscolha inválida\nEscreva a condição de vacina\n1-sim\n2-Não:");
+          scanf("% i",& Editar_usuario.vacina);
+        }
+
+        usuario[i]=Editar_usuario;
+        return 0;
+      }
+    }else{
+      puts("\nNão encontrou");
+    }
+  }
 }
 
 //EXCLUIR
@@ -174,36 +260,6 @@ void excluir(){
     usuario[i].vacina = usuario[i+1].vacina;
   }
   qtd_usuarios-=1;
-}
-
-//Imprimir
-void imprimir(){
-  int i;
-  for(i=0;i<qtd_usuarios;i++){
-    
-    puts("\n-------------------------------------------");
-    printf("Nome usuário: %s\n",usuario[i].nome);
-    printf("id do usuário: %i\n",usuario[i].id);
-    printf("E-mail do usuário: %s\n",usuario[i].email);
-    if(usuario[i].sexo == 1){
-      printf("sexo usuário: Feminino\n");
-    }
-    if(usuario[i].sexo == 2){
-      printf("sexo usuário: Masculino\n");
-    }
-    if(usuario[i].sexo == 3){
-      printf("sexo usuário: Indiferente\n");
-    }
-    printf("Endereço do usuário: %s\n",usuario[i].endereco);
-    printf("Altura usuário: %.2f\n",usuario[i].altura);
-    if(usuario[i].vacina == 1){
-      printf("Usuário Vacinado\n");
-    }
-    if(usuario[i].vacina == 2){
-      printf("Usuário não Vacinado\n");
-    }
-    puts("-------------------------------------------");
-  }  
 }
 
 //BUSCA
@@ -242,4 +298,96 @@ void busca(){
     }
   }
   
+}
+
+//IMPRIMIR
+void imprimir(){
+  int i;
+  for(i=0;i<qtd_usuarios;i++){
+    
+    puts("\n-------------------------------------------");
+    printf("Nome usuário: %s\n",usuario[i].nome);
+    printf("id do usuário: %i\n",usuario[i].id);
+    printf("E-mail do usuário: %s\n",usuario[i].email);
+    if(usuario[i].sexo == 1){
+      printf("sexo usuário: Feminino\n");
+    }
+    if(usuario[i].sexo == 2){
+      printf("sexo usuário: Masculino\n");
+    }
+    if(usuario[i].sexo == 3){
+      printf("sexo usuário: Indiferente\n");
+    }
+    printf("Endereço do usuário: %s\n",usuario[i].endereco);
+    printf("Altura usuário: %.2f\n",usuario[i].altura);
+    if(usuario[i].vacina == 1){
+      printf("Usuário Vacinado\n");
+    }
+    if(usuario[i].vacina == 2){
+      printf("Usuário não Vacinado\n");
+    }
+    puts("-------------------------------------------");
+  }  
+}
+
+//BACKUP
+void backup(){
+  int esc;
+  
+  puts("\nVocê realmente deseja fazer um backup?\n1-Sim\n2-Não");
+  scanf("%i", & esc);
+  if(esc == 1){
+    FILE *backup = fopen("backup.txt","w");
+    Usuarios user_backup;
+
+    for(int i = 0; i < qtd_usuarios; i++){
+      fprintf(backup,"%i %s %s %i %s %.2f %i \n", usuario[i].id, usuario[i].nome, usuario[i].email, usuario[i].sexo, usuario[i].endereco, usuario[i].altura, usuario[i].vacina);
+    } 
+    fclose(backup);
+  }
+  return 0;
+}
+
+//RESTAURAR
+void restaurar(){
+  int esc;
+  
+  puts("\nVocê realmente deseja restaurar o backup anterior?\n1-Sim\n2-Não\n");
+  scanf("%i",& esc);
+  if(esc == 1){
+    puts("\nRestaurando backup\n");
+    //Descobrindo qtd de linhas no arquivo backup.txt
+    
+    FILE *arquivo = fopen("backup.txt","r");
+    char c;
+    int qtd_linhas=0;
+
+    if(arquivo==NULL){
+      puts("\nBackup inexistente");
+      return 0;
+    }else{
+      while((c = fgetc(arquivo)) != EOF){
+        if(c == '\n'){
+          qtd_linhas++;
+        }
+      }
+    }
+    fclose(arquivo);
+
+    //Fazendo restauração
+    
+    if(qtd_linhas > 0){
+      FILE *restaurar = fopen("backup.txt","r");
+      for(int i = 0; i < qtd_linhas; i++){
+        fscanf(restaurar, "%i %s %s %i %s %f %i \n", &usuario[i].id, usuario[i].nome, usuario[i].email, &usuario[i].sexo, usuario[i].endereco, &usuario[i].altura, &usuario[i].vacina);
+        qtd_usuarios++;
+        printf("qtd_usuarios %i\n", qtd_usuarios);
+      }    
+      fclose(restaurar);
+    }
+    //FIM Fazendo restauração
+    
+    
+  }
+  return 0;
 }
